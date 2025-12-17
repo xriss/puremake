@@ -226,9 +226,13 @@ wpath.normalize=function(p)
 			table.remove(ps,idx)
 		elseif ps[idx]==".." then -- remove this and the previous one if we can
 			if idx>(pp.root and 2 or 1) then -- can we remove previous part
-				idx=idx-1
-				table.remove(ps,idx)
-				table.remove(ps,idx)
+				if ps[idx-1]==".." then -- double .. cant remove
+					idx=idx+1
+				else
+					idx=idx-1
+					table.remove(ps,idx)
+					table.remove(ps,idx)
+				end
 			else -- we can not remove so must ignore
 --				table.remove(ps,idx)
 				idx=idx+1
